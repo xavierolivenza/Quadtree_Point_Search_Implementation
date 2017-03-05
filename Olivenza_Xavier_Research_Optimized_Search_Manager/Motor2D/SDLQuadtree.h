@@ -15,15 +15,15 @@ struct AABB // Axis-Aligned Bounding Box
 		aabb = { centre.x - RangeFromCentre.x, centre.y - RangeFromCentre.y, RangeFromCentre.x * 2, RangeFromCentre.y * 2 };
 	}
 
-	bool contains(iPoint& a) const
+	bool contains(iPoint* a) const
 	{
-		SDL_Point point = { a.x,a.y };
+		SDL_Point point = { a->x,a->y };
 		return SDL_PointInRect(&point, &aabb);
 	}
 
-	bool intersects(const AABB& other) const
+	bool intersects(const AABB* other) const
 	{
-		return SDL_HasIntersection(&aabb, &other.aabb);
+		return SDL_HasIntersection(&aabb, &other->aabb);
 	}
 };
 
@@ -60,7 +60,7 @@ public:
 
 	bool insert(iPoint newpoint)
 	{
-		if (!boundary.contains(newpoint))
+		if (!boundary.contains(&newpoint))
 			return false;
 
 		if (objects.size() < 4)
@@ -97,15 +97,15 @@ public:
 		children[3] = new Quadtree(AABB(qCentre, qSize));
 	}
 
-	std::vector< iPoint > queryRange(AABB& range)
+	std::vector< iPoint > queryRange(AABB* range)
 	{
 		std::vector< iPoint > pInRange;
 
 		if (!boundary.intersects(range))
 			return pInRange;
 
-		for (int i = 0; i < objects.size(); i++)
-			if (range.contains(objects.at(i)))
+		for (int i = 0; i < 4; i++)
+			if (range->contains(&objects.at(i)))
 				pInRange.push_back(objects.at(i));
 
 		if (children[0] == nullptr)

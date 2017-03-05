@@ -41,8 +41,8 @@ bool j1Scene::Start()
 	
 	QuadtreeCreationTime.Start();
 
-	Quadtree_area = new AABB({ 640,360 }, { 300,300 });
-	Quadtree_area_search = new AABB({ 500,400 }, { 100,100 });
+	Quadtree_area = new AABB({ 640,360 }, { 500,300 });
+	Quadtree_area_search = new AABB({ 500,400 }, { 100,200 });
 	Point_quadtree = new Quadtree(*Quadtree_area);
 
 	//Generate random tree points
@@ -115,7 +115,7 @@ bool j1Scene::Update()
 
 		//Quadtree search
 		QuadtreeSearchTime.Start();
-		std::vector< iPoint > Points_in_range = Point_quadtree->queryRange(*Quadtree_area_search);
+		std::vector< iPoint > Points_in_range = Point_quadtree->queryRange(Quadtree_area_search);
 		LOG("Quadtree Search Time = %f ms", QuadtreeSearchTime.ReadMs());
 		LOG("Quadtree Points in Range = %i", Points_in_range.size());
 	}
