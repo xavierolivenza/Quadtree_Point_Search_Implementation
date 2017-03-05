@@ -164,6 +164,9 @@ bool j1Scene::Update()
 		LOG("Quadtree Cleared");
 	}
 
+	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
+		seemesh = !seemesh;
+
 	//-------------------------------------------------------------------------------------//
 	//---------------------------------Quadtree Debug Draw---------------------------------//
 	//-------------------------------------------------------------------------------------//
@@ -174,6 +177,11 @@ bool j1Scene::Update()
 	//Search Area
 	App->render->DrawQuad(Quadtree_area_search->aabb, 255, 255, 255, 255, false, false);
 	
+	//Quadtreee AABBs
+	if(seemesh)
+		for (std::vector<AABB>::iterator item = QuadtreeAABBs.begin(); item < QuadtreeAABBs.end(); item++)
+			App->render->DrawQuad((*item).aabb, 0, 255, 0, 255, false, false);
+
 	//Points
 	for (std::vector<iPoint>::iterator item = quadtree_points.begin(); item < quadtree_points.end(); item++)
 		App->render->DrawCircle((*item).x, (*item).y, 1, 255, 0, 0, 255, false);

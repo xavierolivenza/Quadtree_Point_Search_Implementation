@@ -42,6 +42,7 @@ private:
 	Quadtree* Point_quadtree = nullptr;
 
 	//Quadtree debug
+	bool seemesh = false;
 	std::vector< iPoint > quadtree_points;
 	std::vector< iPoint > Points_in_range_quadtree_search;
 	uint normalpointscount = 0;

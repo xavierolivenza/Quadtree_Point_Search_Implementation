@@ -9,8 +9,10 @@
 struct AABB // Axis-Aligned Bounding Box
 {
 	SDL_Rect aabb;
+	iPoint centre;
+	iPoint RangeFromCentre;
 
-	AABB(iPoint centre = { 0,0 }, iPoint RangeFromCentre = { 0,0 })
+	AABB(iPoint centre = { 0,0 }, iPoint RangeFromCentre = { 0,0 }): centre(centre), RangeFromCentre(RangeFromCentre)
 	{
 		aabb = { centre.x - RangeFromCentre.x, centre.y - RangeFromCentre.y, RangeFromCentre.x * 2, RangeFromCentre.y * 2 };
 	}
@@ -58,84 +60,15 @@ public:
 			delete children[i];
 	}
 
-	bool insert(iPoint newpoint)
-	{
-		if (!boundary.contains(&newpoint))
-			return false;
+	bool insert(iPoint newpoint);
 
-		if (objects.size() < 4)
-		{
-			objects.push_back(newpoint);
-			return true;
-		}
+	void subdivide();
 
-		if (children[0] == nullptr)
-			subdivide();
+	std::vector< iPoint > queryRange(AABB* range);
 
-		for (uint i = 0; i < 4; i++)
-			if (children[i]->insert(newpoint))
-				return true;
-
-		return false;
-	}
-
-	void subdivide()
-	{
-		iPoint qSize = { (int)(boundary.aabb.w * 0.5), (int)(boundary.aabb.h * 0.5) };
-		iPoint qCentre;
-
-		qCentre = { boundary.aabb.x - qSize.x, boundary.aabb.y - qSize.y };
-		children[0] = new Quadtree(AABB(qCentre, qSize));
-		
-		qCentre = { boundary.aabb.x + qSize.x, boundary.aabb.y - qSize.y };
-		children[1] = new Quadtree(AABB(qCentre, qSize));
-
-		qCentre = { boundary.aabb.x - qSize.x, boundary.aabb.y + qSize.y };
-		children[2] = new Quadtree(AABB(qCentre, qSize));
-
-		qCentre = { boundary.aabb.x + qSize.x, boundary.aabb.y + qSize.y };
-		children[3] = new Quadtree(AABB(qCentre, qSize));
-	}
-
-	std::vector< iPoint > queryRange(AABB* range)
-	{
-		std::vector< iPoint > pInRange;
-
-		if (!boundary.intersects(range))
-			return pInRange;
-
-		for (int i = 0; i < 4; i++)
-			if (range->contains(&objects[i]))
-				pInRange.push_back(objects[i]);
-
-		if (children[0] == nullptr)
-			return pInRange;
-
-		std::vector< iPoint > temp;
-		temp = children[0]->queryRange(range);
-		pInRange.insert(pInRange.end(), temp.begin(), temp.end());
-
-		temp = children[1]->queryRange(range);
-		pInRange.insert(pInRange.end(), temp.begin(), temp.end());
-
-		temp = children[2]->queryRange(range);
-		pInRange.insert(pInRange.end(), temp.begin(), temp.end());
-
-		temp = children[3]->queryRange(range);
-		pInRange.insert(pInRange.end(), temp.begin(), temp.end());
-
-		return pInRange;
-	}
-
-	void Clear()
-	{
-		for (uint i = 0; i < 4; i++)
-			if (children[i] != nullptr)
-			{
-				delete children[i];
-				children[i] = nullptr;
-			}
-	}
+	void Clear();
 };
+
+extern std::vector<AABB> QuadtreeAABBs;
 
 #endif
