@@ -100,18 +100,18 @@ public:
 	std::vector< iPoint > queryRange(AABB* range)
 	{
 		std::vector< iPoint > pInRange;
-
 		if (!boundary.intersects(range))
 			return pInRange;
 
 		for (int i = 0; i < 4; i++)
-			if (range->contains(&objects.at(i)))
-				pInRange.push_back(objects.at(i));
+			if (range->contains(&objects[i]))
+				pInRange.push_back(objects[i]);
 
 		if (children[0] == nullptr)
 			return pInRange;
 
-		std::vector< iPoint > temp = children[0]->queryRange(range);
+		std::vector< iPoint > temp;
+		temp = children[0]->queryRange(range);
 		pInRange.insert(pInRange.end(), temp.begin(), temp.end());
 
 		temp = children[1]->queryRange(range);

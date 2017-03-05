@@ -103,21 +103,25 @@ bool j1Scene::Update()
 		NormalSearchTime.Start();
 		uint normalpointscount = 0;
 		bool inrect = false;
+		std::vector< iPoint > Points_in_range_normal_search;
 		for (std::vector<iPoint>::iterator item = quadtree_points.begin(); item < quadtree_points.end(); item++)
 		{
 			SDL_Point point = { (*item).x,(*item).y };
 			inrect = SDL_PointInRect(&point, &Quadtree_area_search->aabb);
 			if (inrect)
+			{
+				Points_in_range_normal_search.push_back({ (*item).x,(*item).y });
 				normalpointscount++;
+			}
 		}
 		LOG("Normal Search Time = %f ms", NormalSearchTime.ReadMs());
 		LOG("Normal Points in Range = %i", normalpointscount);
 
 		//Quadtree search
 		QuadtreeSearchTime.Start();
-		std::vector< iPoint > Points_in_range = Point_quadtree->queryRange(Quadtree_area_search);
+		std::vector< iPoint > Points_in_range_quadtree_search = Point_quadtree->queryRange(Quadtree_area_search);
 		LOG("Quadtree Search Time = %f ms", QuadtreeSearchTime.ReadMs());
-		LOG("Quadtree Points in Range = %i", Points_in_range.size());
+		LOG("Quadtree Points in Range = %i", Points_in_range_quadtree_search.size());
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN)
