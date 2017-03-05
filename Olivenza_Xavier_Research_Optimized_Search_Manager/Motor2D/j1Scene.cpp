@@ -130,6 +130,7 @@ bool j1Scene::Update()
 	{
 		Point_quadtree->Clear();
 		quadtree_points.clear();
+		QuadtreeAABBs.clear();
 
 		//Generate random tree points
 		srand(time(NULL));
@@ -170,17 +171,17 @@ bool j1Scene::Update()
 	//-------------------------------------------------------------------------------------//
 	//---------------------------------Quadtree Debug Draw---------------------------------//
 	//-------------------------------------------------------------------------------------//
+	
+	//Quadtreee AABBs
+	if(seemesh)
+		for (std::vector<AABB>::iterator item = QuadtreeAABBs.begin(); item < QuadtreeAABBs.end(); item++)
+			App->render->DrawQuad((*item).aabb, 0, 255, 0, 255, false, false);
 
 	//Root
 	App->render->DrawQuad(Quadtree_area->aabb, 255, 255, 255, 255, false, false);
 
 	//Search Area
 	App->render->DrawQuad(Quadtree_area_search->aabb, 255, 255, 255, 255, false, false);
-	
-	//Quadtreee AABBs
-	if(seemesh)
-		for (std::vector<AABB>::iterator item = QuadtreeAABBs.begin(); item < QuadtreeAABBs.end(); item++)
-			App->render->DrawQuad((*item).aabb, 0, 255, 0, 255, false, false);
 
 	//Points
 	for (std::vector<iPoint>::iterator item = quadtree_points.begin(); item < quadtree_points.end(); item++)
@@ -188,8 +189,8 @@ bool j1Scene::Update()
 
 	//Set title
 	static char title[256];
-	sprintf_s(title, 256, "Normal Search Time: %f ms, Points in Range = %i | Quadtree Search Time: %f ms, Points in Range = %i",
-		normaltime, normalpointscount, quadtreetime, Points_in_range_quadtree_search.size());
+	sprintf_s(title, 256, "Normal Search Time: %f ms, Points in Range = %i | Quadtree Search Time: %f ms, Points in Range = %i | Quadtree AABBs = %i",
+		normaltime, normalpointscount, quadtreetime, Points_in_range_quadtree_search.size(), QuadtreeAABBs.size());
 	App->win->SetTitle(title);
 
 	return true;
