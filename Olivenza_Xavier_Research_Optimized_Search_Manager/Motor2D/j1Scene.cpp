@@ -101,7 +101,7 @@ bool j1Scene::Update()
 	{
 		//Normal search
 		NormalSearchTime.Start();
-		uint normalpointscount = 0;
+		normalpointscount = 0;
 		bool inrect = false;
 		std::vector< iPoint > Points_in_range_normal_search;
 		for (std::vector<iPoint>::iterator item = quadtree_points.begin(); item < quadtree_points.end(); item++)
@@ -114,13 +114,15 @@ bool j1Scene::Update()
 				normalpointscount++;
 			}
 		}
-		LOG("Normal Search Time = %f ms", NormalSearchTime.ReadMs());
+		normaltime = NormalSearchTime.ReadMs();
+		LOG("Normal Search Time = %f ms", normaltime);
 		LOG("Normal Points in Range = %i", normalpointscount);
 
 		//Quadtree search
 		QuadtreeSearchTime.Start();
-		std::vector< iPoint > Points_in_range_quadtree_search = Point_quadtree->queryRange(Quadtree_area_search);
-		LOG("Quadtree Search Time = %f ms", QuadtreeSearchTime.ReadMs());
+		Points_in_range_quadtree_search = Point_quadtree->queryRange(Quadtree_area_search);
+		quadtreetime = QuadtreeSearchTime.ReadMs();
+		LOG("Quadtree Search Time = %f ms", quadtreetime);
 		LOG("Quadtree Points in Range = %i", Points_in_range_quadtree_search.size());
 	}
 
@@ -175,6 +177,12 @@ bool j1Scene::Update()
 	//Points
 	for (std::vector<iPoint>::iterator item = quadtree_points.begin(); item < quadtree_points.end(); item++)
 		App->render->DrawCircle((*item).x, (*item).y, 1, 255, 0, 0, 255, false);
+
+	//Set title
+	static char title[256];
+	sprintf_s(title, 256, "Normal Search Time: %f ms, Points in Range = %i | Quadtree Search Time: %f ms, Points in Range = %i",
+		normaltime, normalpointscount, quadtreetime, Points_in_range_quadtree_search.size());
+	App->win->SetTitle(title);
 
 	return true;
 }

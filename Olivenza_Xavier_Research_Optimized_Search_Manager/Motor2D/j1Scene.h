@@ -42,7 +42,11 @@ private:
 	Quadtree* Point_quadtree = nullptr;
 
 	//Quadtree debug
-	std::vector<iPoint> quadtree_points;
+	std::vector< iPoint > quadtree_points;
+	std::vector< iPoint > Points_in_range_quadtree_search;
+	uint normalpointscount = 0;
+	float normaltime = 0.0f;
+	float quadtreetime = 0.0f;
 
 	//Timers
 	j1PerfTimer QuadtreeCreationTime;

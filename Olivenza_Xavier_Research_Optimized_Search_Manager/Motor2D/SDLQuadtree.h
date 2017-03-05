@@ -86,7 +86,7 @@ public:
 
 		qCentre = { boundary.aabb.x - qSize.x, boundary.aabb.y - qSize.y };
 		children[0] = new Quadtree(AABB(qCentre, qSize));
-
+		
 		qCentre = { boundary.aabb.x + qSize.x, boundary.aabb.y - qSize.y };
 		children[1] = new Quadtree(AABB(qCentre, qSize));
 
@@ -100,6 +100,7 @@ public:
 	std::vector< iPoint > queryRange(AABB* range)
 	{
 		std::vector< iPoint > pInRange;
+
 		if (!boundary.intersects(range))
 			return pInRange;
 
