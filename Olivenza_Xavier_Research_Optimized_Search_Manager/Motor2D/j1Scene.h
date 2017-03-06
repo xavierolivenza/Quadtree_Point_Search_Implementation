@@ -35,6 +35,9 @@ public:
 	bool CleanUp();
 
 private:
+	void GenerateRandomPointsAndPushToQuadtree();
+
+private:
 
 	//Quadtree
 	AABB* Quadtree_area = nullptr;
@@ -42,7 +45,10 @@ private:
 	Quadtree* Point_quadtree = nullptr;
 
 	//Quadtree debug
+	uint accepted_points = 0;
 	bool seemesh = false;
+	int seemeshstepnum = 0;
+	bool seemeshstep = false;
 	std::vector< iPoint > quadtree_points;
 	std::vector< iPoint > Points_in_range_quadtree_search;
 	uint normalpointscount = 0;
