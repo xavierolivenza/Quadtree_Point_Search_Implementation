@@ -12,6 +12,7 @@
 #include "j1PathFinding.h"
 #include "j1Scene.h"
 
+//Max points in the quadtree
 static const uint Max_Points = 200;
 
 j1Scene::j1Scene() : j1Module()
@@ -67,7 +68,7 @@ bool j1Scene::Update()
 
 	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_DOWN)
 	{
-		//Normal search
+		// Normal search
 		NormalSearchTime.Start();
 		normalpointscount = 0;
 		bool inrect = false;
@@ -86,7 +87,7 @@ bool j1Scene::Update()
 		LOG("Normal Search Time = %f ms", normaltime);
 		LOG("Normal Points in Range = %i", normalpointscount);
 
-		//Quadtree search
+		// Quadtree search
 		QuadtreeSearchTime.Start();
 		Points_in_range_quadtree_search = Point_quadtree->queryRange(Quadtree_area_search);
 		quadtreetime = QuadtreeSearchTime.ReadMs();
@@ -94,6 +95,7 @@ bool j1Scene::Update()
 		LOG("Quadtree Points in Range = %i", Points_in_range_quadtree_search.size());
 	}
 
+	// Generate a new quadtree
 	if (App->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN)
 	{
 		Point_quadtree->Clear();
@@ -106,12 +108,15 @@ bool j1Scene::Update()
 		LOG("Quadtree Cleared");
 	}
 
+	// Show all quadtree subdivions
 	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
 		seemesh = !seemesh;
 
+	//Shows quadtree subdiviones step by step, use Q,A keys
 	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
 		seemeshstep = !seemeshstep;
 
+	// Add 1 more step to the subdiviones step by step debug draw
 	if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN)
 	{
 		seemeshstepnum += 1;
@@ -119,14 +124,13 @@ bool j1Scene::Update()
 			seemeshstepnum = QuadtreeAABBs.size();
 	}
 
+	// Remove 1 step from the subdiviones step by step debug draw
 	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_DOWN)
 	{
 		seemeshstepnum -= 1;
 		if(seemeshstepnum < 0)
 			seemeshstepnum = 0;
 	}
-		
-	
 	
 	//-------------------------------------------------------------------------------------//
 	//---------------------------------Quadtree Debug Draw---------------------------------//
@@ -139,11 +143,13 @@ bool j1Scene::Update()
 	App->render->DrawQuad(Quadtree_area_search->aabb, 255, 255, 255, 255, false, false);
 
 	//Quadtreee AABBs
+	//F1 mode all subdiviones
 	if(seemesh)
 		for (std::vector<AABB>::iterator item = QuadtreeAABBs.begin(); item < QuadtreeAABBs.end(); item++)
 				App->render->DrawQuad((*item).aabb, 0, 255, 0, 255, false, false);
 
 	//Quadtreee AABBs step
+	//F2 mode subdiviones step by step
 	uint i = 0;
 	if (seemeshstep)
 		for (std::vector<AABB>::iterator item = QuadtreeAABBs.begin(); item < QuadtreeAABBs.end(); item++, i++)
@@ -208,7 +214,7 @@ void j1Scene::GenerateRandomPointsAndPushToQuadtree()
 
 	for (int i = 0; i < Max_Points; i++)
 	{
-		//Generates 200 random points between 0-150
+		//Generates random points between
 		x = rand() % Quadtree_area->aabb.w;
 		y = rand() % Quadtree_area->aabb.h;
 		x += Quadtree_area->aabb.x;

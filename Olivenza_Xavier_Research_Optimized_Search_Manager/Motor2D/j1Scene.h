@@ -39,12 +39,12 @@ private:
 
 private:
 
-	//Quadtree
+	// Quadtree
 	AABB* Quadtree_area = nullptr;
 	AABB* Quadtree_area_search = nullptr;
 	Quadtree* Point_quadtree = nullptr;
 
-	//Quadtree debug
+	// Quadtree debug
 	uint accepted_points = 0;
 	bool seemesh = false;
 	int seemeshstepnum = 0;
@@ -55,7 +55,7 @@ private:
 	float normaltime = 0.0f;
 	float quadtreetime = 0.0f;
 
-	//Timers
+	// Timers
 	j1PerfTimer QuadtreeCreationTime;
 	j1PerfTimer QuadtreeSearchTime;
 	j1PerfTimer NormalSearchTime;
