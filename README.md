@@ -9,10 +9,15 @@ After searching for a lot of information, I decided to try the quadtree, in the 
 
 ###Debug
 R  ➣ Regenerates a new quadtree with new points.
+
 S  ➣ Search, in this project, brute force and quadtree search will be performed.
+
 F1 ➣ See the whole generated quadtree.
+
 F2 ➣ Activate the "see quadtree steps mode". To start seeing something, press Q.
+
 Q  ➣ In "see quadtree steps mode", add one step.
+
 A  ➣ In "see quadtree steps mode", remove one step.
 
 CITM Terrassa 2016-2017
