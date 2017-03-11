@@ -8,7 +8,7 @@ bool AABB::Insert(iPoint* newpoint)
 {
 	// TODO 1: If new point is not in the quadtree AABB, return
 
-	// TODO 2: If in this node there is space for the point, pushback it
+	// TODO 2: If in this node there is space for the point, pushback it (remember Max_Elements_in_Same_Node)
 
 	// TODO 5: Otherwise, subdivide and add the point to one of the new nodes
 
@@ -31,7 +31,7 @@ int AABB::CollectCandidates(std::vector< iPoint* >& nodes, const SDL_Rect& r)
 
 	// TODO 6: If range is not in the quadtree, return
 
-	// TODO 7: See if the points of this node are in range and pushback them to the vector
+	// TODO 7: See if the points of this node are in range and pushback them to the vector (remember Max_Elements_in_Same_Node)
 
 	// TODO 8: If there is no children, end
 

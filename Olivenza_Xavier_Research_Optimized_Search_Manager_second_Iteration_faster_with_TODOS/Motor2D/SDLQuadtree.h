@@ -6,6 +6,8 @@
 #include "p2Point.h"
 #include "SDL\include\SDL_rect.h"
 
+static const uint Max_Elements_in_Same_Node = 4;
+
 // Axis-Aligned Bounding Box
 // This is the rectangles used by the quadtree to subdivide the space
 struct AABB

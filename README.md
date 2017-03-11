@@ -6,6 +6,8 @@ After searching for a lot of information, I decided to try the quadtree, in the 
 ## Usage
 ###How to use the Quadtree
 
+Look in the Olivenza_Xavier_Research_Optimized_Search_Manager_ENG or Olivenza_Xavier_Research_Optimized_Search_Manager_ESP file. In the section on the last but one page, How does my quadtree implementation work?/Cómo funciona mi implementación de quadtree, explains how to use the SDLQuadtree.h / .cpp files in another project, without worrying about what is inside these files.
+For more information about the SDLQuadtree.h / .cpp files, enter them, they are full of comments.
 
 ###Debug
 R  ➣ Regenerates a new quadtree with new points.
