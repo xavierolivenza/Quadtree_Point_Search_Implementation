@@ -90,8 +90,9 @@ bool j1Scene::Update()
 
 		// Quadtree search
 		Points_in_range_quadtree_search.clear();
+		quadtreechecks = 0;
 		QuadtreeSearchTime.Start();
-		Point_quadtree->CollectCandidates(Points_in_range_quadtree_search, Quadtree_area_search);
+		quadtreechecks = Point_quadtree->CollectCandidates(Points_in_range_quadtree_search, Quadtree_area_search);
 		quadtreetime = QuadtreeSearchTime.ReadMs();
 		LOG("Quadtree Search Time = %f ms", quadtreetime);
 		LOG("Quadtree Points in Range = %i", Points_in_range_quadtree_search.size());
@@ -171,8 +172,8 @@ bool j1Scene::Update()
 
 	//Set title
 	static char title[256];
-	sprintf_s(title, 256, "Normal Search Time: %f ms, Points in Range = %i | Quadtree Search Time: %f ms, Points in Range = %i | Quadtree AABBs = %i | Accepted points %i/%i | Mesh step = %i",
-		normaltime, normalpointscount, quadtreetime, Points_in_range_quadtree_search.size(), QuadtreeAABBs.size(), accepted_points, Max_Points, seemeshstepnum);
+	sprintf_s(title, 256, "Normal Search Time: %f ms, Points in Range = %i | Quadtree Search Time: %f ms, Points in Range = %i | Quadtree AABBs = %i | Quadtree checks = %i | Accepted points %i/%i | Mesh step = %i",
+		normaltime, normalpointscount, quadtreetime, Points_in_range_quadtree_search.size(), QuadtreeAABBs.size(), quadtreechecks, accepted_points, Max_Points, seemeshstepnum);
 	App->win->SetTitle(title);
 
 	return true;

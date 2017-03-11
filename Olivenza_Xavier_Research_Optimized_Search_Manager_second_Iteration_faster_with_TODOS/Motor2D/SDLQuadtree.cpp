@@ -27,7 +27,7 @@ void AABB::subdivide()
 
 int AABB::CollectCandidates(std::vector< iPoint* >& nodes, const SDL_Rect& r)
 {
-	uint ret = 0;
+	uint ret = 1;
 
 	// TODO 6: If range is not in the quadtree, return
 

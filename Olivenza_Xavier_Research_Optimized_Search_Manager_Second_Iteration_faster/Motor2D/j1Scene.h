@@ -54,6 +54,7 @@ private:
 	uint normalpointscount = 0;
 	float normaltime = 0.0f;
 	float quadtreetime = 0.0f;
+	uint quadtreechecks = 0;
 
 	// Timers
 	j1PerfTimer QuadtreeCreationTime;
