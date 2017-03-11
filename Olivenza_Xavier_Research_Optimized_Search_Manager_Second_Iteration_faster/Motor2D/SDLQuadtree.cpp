@@ -60,17 +60,21 @@ void AABB::subdivide()
 int AABB::CollectCandidates(std::vector< iPoint* >& nodes, const SDL_Rect& r)
 {
 	uint ret = 0;
+	// If range is not in the quadtree, return
 	if(!AABB(aabb).intersects(&AABB(r)))
 		return ret;
 
+	// See if the points of this node are in range and pushback them to the vector
 	if (!objects.empty())
 		for (int i = 0; i < 4; i++)
 			if(AABB(r).contains(&objects[i]))
 				nodes.push_back(&objects[i]);
 
+	// If there is no children, end
 	if (children[0] == nullptr)
 		return ret;
 
+	// Otherwise, add the points from the children
 	ret += children[0]->CollectCandidates(nodes, r);
 	ret += children[1]->CollectCandidates(nodes, r);
 	ret += children[2]->CollectCandidates(nodes, r);

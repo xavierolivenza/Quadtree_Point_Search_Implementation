@@ -42,9 +42,10 @@ bool j1Scene::Start()
 	
 	QuadtreeCreationTime.Start();
 
-	Quadtree_area = new AABB({ 640,360 }, { 256,256 });
-	Quadtree_area_search = new AABB({ 500,400 }, { 100,200 });
-	Point_quadtree = new Quadtree(*Quadtree_area);
+	Quadtree_area = { 384,104,512,512 };
+	//Quadtree_area = { 100,50,550,600 };
+	Point_quadtree = new Quadtree(Quadtree_area);
+	Quadtree_area_search = { 500,200,100,200 };
 
 	GenerateRandomPointsAndPushToQuadtree();
 
@@ -76,7 +77,7 @@ bool j1Scene::Update()
 		for (std::vector<iPoint>::iterator item = quadtree_points.begin(); item < quadtree_points.end(); item++)
 		{
 			SDL_Point point = { (*item).x,(*item).y };
-			inrect = SDL_PointInRect(&point, &Quadtree_area_search->aabb);
+			inrect = SDL_PointInRect(&point, &Quadtree_area_search);
 			if (inrect)
 			{
 				Points_in_range_normal_search.push_back({ (*item).x,(*item).y });
@@ -88,8 +89,9 @@ bool j1Scene::Update()
 		LOG("Normal Points in Range = %i", normalpointscount);
 
 		// Quadtree search
+		Points_in_range_quadtree_search.clear();
 		QuadtreeSearchTime.Start();
-		Points_in_range_quadtree_search = Point_quadtree->queryRange(Quadtree_area_search);
+		Point_quadtree->CollectCandidates(Points_in_range_quadtree_search, Quadtree_area_search);
 		quadtreetime = QuadtreeSearchTime.ReadMs();
 		LOG("Quadtree Search Time = %f ms", quadtreetime);
 		LOG("Quadtree Points in Range = %i", Points_in_range_quadtree_search.size());
@@ -101,7 +103,8 @@ bool j1Scene::Update()
 		Point_quadtree->Clear();
 		quadtree_points.clear();
 		QuadtreeAABBs.clear();
-		accepted_points = 0;
+
+		Point_quadtree = new Quadtree(Quadtree_area);
 
 		GenerateRandomPointsAndPushToQuadtree();
 
@@ -137,31 +140,30 @@ bool j1Scene::Update()
 	//-------------------------------------------------------------------------------------//
 
 	//Root
-	App->render->DrawQuad(Quadtree_area->aabb, 255, 255, 255, 255, false, false);
+	App->render->DrawQuad(Quadtree_area, 255, 255, 255, 255, false, false);
 
 	//Search Area
-	App->render->DrawQuad(Quadtree_area_search->aabb, 255, 255, 255, 255, false, false);
+	App->render->DrawQuad(Quadtree_area_search, 255, 255, 255, 255, false, false);
 
 	//Quadtreee AABBs
 	//F1 mode all subdiviones
 	if(seemesh)
-		for (std::vector<AABB>::iterator item = QuadtreeAABBs.begin(); item < QuadtreeAABBs.end(); item++)
-				App->render->DrawQuad((*item).aabb, 0, 255, 0, 255, false, false);
+		for (std::vector<SDL_Rect>::iterator item = QuadtreeAABBs.begin(); item < QuadtreeAABBs.end(); item++)
+			App->render->DrawQuad((*item), 0, 255, 0, 255, false, false);
 
 	//Quadtreee AABBs step
 	//F2 mode subdiviones step by step
 	uint i = 0;
 	if (seemeshstep)
-		for (std::vector<AABB>::iterator item = QuadtreeAABBs.begin(); item < QuadtreeAABBs.end(); item++, i++)
+		for (std::vector<SDL_Rect>::iterator item = QuadtreeAABBs.begin(); item < QuadtreeAABBs.end(); item++, i++)
 		{
 			if (i >= seemeshstepnum)
 				break;
 			if (i < seemeshstepnum - 1)
-				App->render->DrawQuad((*item).aabb, 0, 255, 0, 255, false, false);
+				App->render->DrawQuad((*item), 0, 255, 0, 255, false, false);
 			else
-				App->render->DrawQuad((*item).aabb, 0, 0, 255, 255, false, false);
+				App->render->DrawQuad((*item), 0, 0, 255, 255, false, false); //Print the lst one in blue
 		}
-			
 	
 	//Points
 	for (std::vector<iPoint>::iterator item = quadtree_points.begin(); item < quadtree_points.end(); item++)
@@ -192,8 +194,6 @@ bool j1Scene::CleanUp()
 {
 	LOG("Freeing scene");
 
-	delete Quadtree_area;
-	delete Quadtree_area_search;
 	delete Point_quadtree;
 
 	return true;
@@ -215,10 +215,10 @@ void j1Scene::GenerateRandomPointsAndPushToQuadtree()
 	for (int i = 0; i < Max_Points; i++)
 	{
 		//Generates random points between
-		x = rand() % Quadtree_area->aabb.w;
-		y = rand() % Quadtree_area->aabb.h;
-		x += Quadtree_area->aabb.x;
-		y += Quadtree_area->aabb.y;
+		x = rand() % Quadtree_area.w;
+		y = rand() % Quadtree_area.h;
+		x += Quadtree_area.x;
+		y += Quadtree_area.y;
 		//Uncomment it for negative numbers
 		//xsign = rand() % 2;
 		//ysign = rand() % 2;
@@ -226,7 +226,7 @@ void j1Scene::GenerateRandomPointsAndPushToQuadtree()
 		//if (ysign) y *= -1;
 
 		//Insert point to tree
-		point_accepted = Point_quadtree->insert({ x,y });
+		point_accepted = Point_quadtree->Insert(&iPoint( x,y ));
 
 		//Debug
 		if (point_accepted)
