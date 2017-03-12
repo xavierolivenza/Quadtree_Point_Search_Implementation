@@ -27,11 +27,12 @@ void AABB::subdivide()
 
 int AABB::CollectCandidates(std::vector< iPoint* >& nodes, const SDL_Rect& r)
 {
-	uint ret = 1;
+	uint ret = 0;
 
 	// TODO 6: If range is not in the quadtree, return
 
-	// TODO 7: See if the points of this node are in range and pushback them to the vector (remember Max_Elements_in_Same_Node)
+	// TODO 7: See if the points of this node are in range and pushback them to the vector
+	//(remember Max_Elements_in_Same_Node and ret to count how many points we check)
 
 	// TODO 8: If there is no children, end
 
