@@ -96,7 +96,7 @@ Point_quadtree = new Quadtree(Quadtree_area); Quadtree_area_search = { 500,200,1
 Point_quadtree->Insert(&iPoint( x,y )); When you need to do the search, in my case in Update () when you press "S", simply perform the search using the pointer, and passing to CollectCandidates a vector to store all the entities in range and the search area. 
 Point_quadtree->CollectCandidates->(Points_in_range_quadtree_search, Quadtree_area_search); 
 
-#About me
+# About me
 
 [My GitHub Account](https://github.com/xavierolivenza)
 
