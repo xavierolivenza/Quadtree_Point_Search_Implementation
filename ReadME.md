@@ -116,9 +116,11 @@ Point_quadtree->CollectCandidates->(Points_in_range_quadtree_search, Quadtree_ar
 
 [Quadtree and Octree](http://www.i-programmer.info/programming/theory/1679-quadtrees-and-octrees.html)
 
-[K-D Tree Implementation 1](https://rosettacode.org/wiki/K-d_tree https://github.com/orangejulius/kdtree)
+[K-D Tree Implementation 1](https://rosettacode.org/wiki/K-d_tree)
 
 [K-D Tree Implementation 2](https://github.com/gvd/kdtree)
+
+[K-D Tree Implementation 3](https://github.com/orangejulius/kdtree)
 
 [K-D Tree VS Quadtree](http://stackoverflow.com/questions/13487953/difference-between-quadtree-and-kd-tree)
 
