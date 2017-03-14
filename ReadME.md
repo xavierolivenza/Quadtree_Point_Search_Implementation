@@ -96,38 +96,34 @@ Point_quadtree = new Quadtree(Quadtree_area); Quadtree_area_search = { 500,200,1
 Point_quadtree->Insert(&iPoint( x,y )); When you need to do the search, in my case in Update () when you press "S", simply perform the search using the pointer, and passing to CollectCandidates a vector to store all the entities in range and the search area. 
 Point_quadtree->CollectCandidates->(Points_in_range_quadtree_search, Quadtree_area_search); 
 
-## Links 
+#About me
 
-Space Partitioning http://gameprogrammingpatterns.com/spatial-partition.html 
+[My GitHub Account](https://github.com/xavierolivenza)
 
-Quadtree implementations 
+[This site repository](https://github.com/xavierolivenza/Quadtree_Point_Search_Implementation)
 
-https://github.com/Lectem/YAQ 
+[This site release with some exercises](https://github.com/xavierolivenza/Quadtree_Point_Search_Implementation/releases/tag/v1.0)
 
-http://codereview.stackexchange.com/questions/143955/quadtree-c-implementation 
+## Useful Links 
 
-Octree 
+[Space Partitioning](http://gameprogrammingpatterns.com/spatial-partition.html)
 
-http://www.gamasutra.com/view/feature/131625/octree_partitioning_techniques.php 
+[Quadtree implementations 1](https://github.com/Lectem/YAQ)
 
-Quadtree and Octree 
+[Quadtree implementations 2](http://codereview.stackexchange.com/questions/143955/quadtree-c-implementation)
 
-http://www.i-programmer.info/programming/theory/1679-quadtrees-and-octrees.html 
+[Octree](http://www.gamasutra.com/view/feature/131625/octree_partitioning_techniques.php)
 
-K-D Tree Implementation links 
+[Quadtree and Octree](http://www.i-programmer.info/programming/theory/1679-quadtrees-and-octrees.html)
 
-https://rosettacode.org/wiki/K-d_tree https://github.com/orangejulius/kdtree 
+[K-D Tree Implementation 1](https://rosettacode.org/wiki/K-d_tree https://github.com/orangejulius/kdtree)
 
-https://github.com/gvd/kdtree 
+[K-D Tree Implementation 2](https://github.com/gvd/kdtree)
 
-K-D Tree VS Quadtree  
+[K-D Tree VS Quadtree](http://stackoverflow.com/questions/13487953/difference-between-quadtree-and-kd-tree)
 
-http://stackoverflow.com/questions/13487953/difference-between-quadtree-and-kd-tree
+[K-D Tree VS Quadtree](http://gamedev.stackexchange.com/questions/87138/fully-dynamic-kd-tree-vs-quadtree )
 
-http://gamedev.stackexchange.com/questions/87138/fully-dynamic-kd-tree-vs-quadtree 
-
-Quadtrees and Hilbert Curves 
-
-http://blog.notdot.net/2009/11/Damn-Cool-Algorithms-Spatial-indexing-with-Quadtreesand-Hilbert-Curves
+[Quadtrees and Hilbert Curves](http://blog.notdot.net/2009/11/Damn-Cool-Algorithms-Spatial-indexing-with-Quadtreesand-Hilbert-Curves)
 
 CITM Terrassa 2016-2017
